@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lab em Jornalismo Digital – Aula 4: Storytelling Interativo e Jornalismo de Dados</title>
+  <meta name="description" content="Microsite de apoio à Aula 4 da disciplina Jornalismo em Plataformas Digitais (UERJ): storytelling interativo, agência do usuário e jornalismo de dados, com estudo de caso, ferramentas e atividade prática." />
+  <meta property="og:title" content="Aula 4 – Storytelling Interativo e Jornalismo de Dados" />
+  <meta property="og:description" content="Microsite de apoio à Aula 4: conceitos, estudo de caso, ferramentas e atividade prática." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #0f152a;
+      --muted: #aeb9c9;
+      --text: #e6edf3;
+      --brand: #0ea5e9;
+      --brand-2: #22d3ee;
+      --ok: #10b981;
+      --warn: #f59e0b;
+      --max: 1100px;
+      --radius: 18px;
+      --shadow: 0 12px 36px rgba(0,0,0,.35);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body { margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; color: var(--text); background:
+      radial-gradient(900px 600px at 15% -10%, rgba(34,211,238,.15), transparent 60%),
+      radial-gradient(1200px 800px at 90% 10%, rgba(14,165,233,.18), transparent 60%), var(--bg);
+      line-height: 1.65; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 24px; }
+    header.top {
+      position: sticky; top: 0; z-index: 30; backdrop-filter: blur(8px);
+      background: rgba(11,16,32,.65); border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .top .inner { display: flex; gap: 16px; align-items: center; justify-content: space-between; max-width: var(--max); margin: 0 auto; padding: 14px 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing:.2px; }
+    .logo { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 6px 20px rgba(34,211,238,.35); }
+    nav ul { display: flex; gap: 14px; list-style: none; padding: 0; margin: 0; flex-wrap: wrap; }
+    nav a { padding: 8px 12px; border-radius: 999px; color: var(--muted); font-weight: 600; font-size: 14px; border: 1px solid transparent; }
+    nav a:hover { color: var(--text); border-color: rgba(255,255,255,.14); background: rgba(255,255,255,.04); }
+
+    .hero { padding: 56px 24px 10px; }
+    .hero .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); box-shadow: var(--shadow);
+      overflow: hidden; position: relative;
+    }
+    .hero .card .head { padding: 28px 26px 6px; }
+    .eyebrow { font-size: 13px; color: var(--brand-2); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; }
+    h1 { margin: 6px 0 8px; font-size: clamp(26px, 4.2vw, 40px); line-height: 1.15; }
+    .meta { color: var(--muted); font-size: 14px; }
+
+    .grid { display: grid; gap: 20px; grid-template-columns: 1fr; padding: 0 26px 26px; }
+    @media (min-width: 900px) { .grid { grid-template-columns: 1.2fr .8fr; } }
+    .pane { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 18px; }
+
+    .toc h2 { margin: 6px 0 14px; font-size: 18px; color: var(--muted); }
+    .toc ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .toc a { display: block; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,.08); color: var(--text); background: rgba(255,255,255,.02); }
+    .toc a:hover { border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.04); }
+
+    section { scroll-margin-top: 90px; }
+    .section { margin: 30px 0; background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .section .hd { padding: 18px 22px; border-bottom: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; gap: 12px; }
+    .section .hd h2 { margin: 0; font-size: clamp(18px, 2.6vw, 26px); }
+    .section .bd { padding: 18px 22px; }
+    .kicker { color: var(--brand); font-weight: 700; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; }
+
+    .list { display: grid; gap: 12px; }
+    .callout { padding: 12px 14px; border-radius: 12px; border-left: 4px solid var(--brand); background: rgba(14,165,233,.10); }
+    .note { border-left-color: var(--warn); background: rgba(245,158,11,.12); }
+    .ok { border-left-color: var(--ok); background: rgba(16,185,129,.12); }
+
+    details { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 12px 14px; }
+    details[open] { background: rgba(255,255,255,.05); }
+    summary { cursor: pointer; font-weight: 600; }
+
+    .refs li { margin-bottom: 8px; }
+    .foot { text-align: center; color: var(--muted); font-size: 14px; padding: 28px 0 60px; }
+    .btns { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.03); font-weight: 600; }
+    .btn:hover { border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.06); }
+
+    @media print {
+      header.top, .btns { display: none !important; }
+      body { background: #fff; color: #111; }
+      .section, .pane, .hero .card { box-shadow: none; border-color: #ccc; }
+      a { color: #000; text-decoration: underline; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top" role="banner">
+    <div class="inner">
+      <a class="brand" href="#top" aria-label="Início">
+        <span class="logo" aria-hidden="true"></span>
+        <span>UERJ • Jornalismo em Plataformas Digitais</span>
+      </a>
+      <nav aria-label="Seções da aula">
+        <ul>
+          <li><a href="#intro">Introdução</a></li>
+          <li><a href="#conceitos">Storytelling interativo</a></li>
+          <li><a href="#agencia">Agência do usuário</a></li>
+          <li><a href="#dados">Jornalismo de dados</a></li>
+          <li><a href="#estudo">Estudo de caso</a></li>
+          <li><a href="#ferramentas">Ferramentas</a></li>
+          <li><a href="#grm">Integração em GRM</a></li>
+          <li><a href="#atividade">Atividade</a></li>
+          <li><a href="#referencias">Referências</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="wrap" role="main">
+    <section class="hero" aria-labelledby="titulo-aula">
+      <div class="card">
+        <div class="head">
+          <div class="eyebrow">Graduação • Disciplina Jornalismo em Plataformas Digitais</div>
+          <h1 id="titulo-aula">Aula 4 — Storytelling Interativo e Jornalismo de Dados</h1>
+          <p class="meta">Autora: Prof.ª Dra. Raquel Lobão • Laboratório em Jornalismo Digital (UERJ)</p>
+        </div>
+        <div class="grid">
+          <div class="pane">
+            <p>Este microsite substitui o <em>slide deck</em> tradicional e organiza os conteúdos da aula como módulos navegáveis. Recomenda-se explorar as seções na ordem proposta ou por tópicos, conforme o interesse investigativo.</p>
+            <div class="btns" role="group" aria-label="Ações rápidas">
+              <a class="btn" href="#atividade">Ir para atividade prática</a>
+              <a class="btn" href="#referencias">Ver referências</a>
+              <a class="btn" href="#estudo">Estudo de caso</a>
+            </div>
+          </div>
+          <aside class="pane toc" aria-labelledby="toc-h">
+            <h2 id="toc-h">Roteiro da aula</h2>
+            <ol>
+              <li><a href="#intro">Introdução: narrativas não lineares e papel do usuário</a></li>
+              <li><a href="#conceitos">O que é storytelling interativo? Conceitos e desdobramentos</a></li>
+              <li><a href="#agencia">Agência do usuário</a></li>
+              <li><a href="#dados">Jornalismo de dados como linguagem narrativa</a></li>
+              <li><a href="#estudo">Estudo de caso: “A Máquina do Ódio”</a></li>
+              <li><a href="#ferramentas">Ferramentas de visualização</a></li>
+              <li><a href="#grm">Integração de dados em GRM</a></li>
+              <li><a href="#atividade">Atividade prática</a></li>
+              <li><a href="#referencias">Referências</a></li>
+            </ol>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="intro" class="section" aria-labelledby="h-intro">
+      <div class="hd"><span class="kicker">Introdução</span><h2 id="h-intro">Narrativas não lineares e o papel do usuário</h2></div>
+      <div class="bd">
+        <p>As mídias digitais favoreceram formas narrativas não lineares, em que o leitor deixa de percorrer um trajeto fixo e passa a interagir com a estrutura do conteúdo, definindo caminhos personalizados de leitura e navegação. Esse modelo rompe a lógica clássica de começo–meio–fim e amplia possibilidades jornalísticas em investigações com múltiplas camadas, linhas do tempo, mapas interativos e análises de dados. Conforme Murray (2017), a interatividade digital é forma expressiva que reorganiza a relação entre autor, narrativa e público.</p>
+        <div class="callout">O leitor deixa de ser espectador e torna-se coparticipante da narrativa, o que exige intencionalidade editorial e desenho de percursos cognitivos claros.</div>
+      </div>
+    </section>
+
+    <section id="conceitos" class="section" aria-labelledby="h-conceitos">
+      <div class="hd"><span class="kicker">Conceitos</span><h2 id="h-conceitos">O que é storytelling interativo?</h2></div>
+      <div class="bd">
+        <p>Entende-se por storytelling interativo a modalidade narrativa com não linearidade estruturada, em que o usuário exerce agência parcial ou total sobre o percurso, seleciona caminhos, interage com recursos multimídia e, por vezes, influencia desfechos. A experiência deixa de ser passiva e se torna processual, dependendo de como o leitor percorre recursos e decide a ordem e a profundidade do que visualizar (Murray, 2017).</p>
+        <p>No jornalismo digital, é especialmente relevante para temas complexos ou multicausais — crises climáticas, conflitos urbanos, dinâmicas econômicas, violações de direitos. Estudos de referência incluem <a href="https://www.theguardian.com/world/ng-interactive/2013/jul/26/firestorm-bushfire-dunalley-holmes-family" target="_blank" rel="noopener">Firestorm</a> (The Guardian, 2013) e <em>Crónica de un Desahucio</em> (El País, 2012), que articulam vídeos, documentos, mapas e depoimentos em estruturas exploráveis.</p>
+        <details>
+          <summary>Desafios editoriais</summary>
+          <ul class="list">
+            <li>Garantir liberdade sem dispersão: percursos abertos, mas guiados por hierarquia e clareza (Longhi, 2015).</li>
+            <li>Coesão entre texto, dados e multimídia para evitar ruído cognitivo.</li>
+            <li>Acessibilidade e responsividade como critérios de inclusão e qualidade.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <section id="agencia" class="section" aria-labelledby="h-agencia">
+      <div class="hd"><span class="kicker">Interação</span><h2 id="h-agencia">Agência do usuário em narrativas digitais</h2></div>
+      <div class="bd">
+        <p>A agência do usuário refere-se à capacidade de interferir na fruição e no encadeamento da narrativa: navegar em mapas, ativar camadas de dados, escolher perspectivas, manipular sequências. No jornalismo, manifesta-se em visualizações customizáveis, <em>timelines</em> interativas, simulações e filtros. <em>The Uber Game</em> (Financial Times, 2017) exemplifica a simulação de decisão aplicada à pauta.</p>
+        <div class="note">A multiplicidade de trajetos amplia empatia e engajamento, mas demanda salvaguardas para preservar integridade informacional e responsabilidade ética (Longhi, 2015).</div>
+      </div>
+    </section>
+
+    <section id="dados" class="section" aria-labelledby="h-dados">
+      <div class="hd"><span class="kicker">Dados</span><h2 id="h-dados">Jornalismo de dados como linguagem narrativa</h2></div>
+      <div class="bd">
+        <p>O jornalismo de dados traduz fenômenos complexos em linguagem visual acessível por meio de coleta, análise e apresentação significativa. Para além da apuração, integra raciocínio estatístico, ciência de dados e design informacional, transformando bases brutas em narrativas inteligíveis. Rosa (2020) enfatiza o papel do jornalista como curador e tradutor de sentidos emergentes.</p>
+        <ul class="list">
+          <li>Gráficos temporais para padrões históricos; diagramas em rede para relações e estruturas de poder.</li>
+          <li>Mapas de calor para distribuições espaciais; infográficos interativos para exploração personalizada.</li>
+          <li>As visualizações organizam a lógica narrativa e orientam percursos comparativos e revelações progressivas.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="estudo" class="section" aria-labelledby="h-estudo">
+      <div class="hd"><span class="kicker">Caso</span><h2 id="h-estudo">Estudo de caso — “A Máquina do Ódio” (Revista Piauí, 2021)</h2></div>
+      <div class="bd">
+        <p>Reportagem baseada em análise de redes de perfis envolvidos em campanhas de desinformação. Mostra a produção, disseminação e amplificação de conteúdos falsos por influenciadores, <em>bots</em> e operadores políticos.</p>
+        <h3>1) Estrutura narrativa</h3>
+        <p>Organizada em blocos temáticos com visualizações próprias (linhas do tempo, grafos de rede, séries de engajamento), permitindo leitura não linear por seções.</p>
+        <h3>2) Recursos técnicos e visuais</h3>
+        <p>Coleta via <em>scraping</em> e análise com ferramentas como Gephi/R; conversão em visualizações interativas com destaque para grafos que evidenciam clusters, funções e centralidades.</p>
+        <h3>3) Narrativa visual e engajamento</h3>
+        <p>Visualizações demonstram rotas, repetições e convergência de atores, oferecendo evidências visuais contextualizadas por texto analítico e reforçando participação ativa do leitor.</p>
+        <h3>4) Ética e responsabilidade informacional</h3>
+        <p>Anonimização de usuários não públicos e explicitação de critérios de curadoria dos dados, evitando sensacionalismo e preservando rigor.</p>
+        <p class="btns"><a class="btn" href="https://piaui.folha.uol.com.br/a-maquina-do-odio/" target="_blank" rel="noopener">Abrir reportagem</a></p>
+      </div>
+    </section>
+
+    <section id="ferramentas" class="section" aria-labelledby="h-ferramentas">
+      <div class="hd"><span class="kicker">Ferramentas</span><h2 id="h-ferramentas">Visualização interativa: opções acessíveis</h2></div>
+      <div class="bd">
+        <ul class="list">
+          <li><strong>Flourish</strong>: gráficos animados, mapas, redes e séries temporais; <em>embeds</em> fáceis e responsivos.</li>
+          <li><strong>Datawrapper</strong>: gráficos limpos e responsivos (barras, linhas, mapas) com <em>tooltips</em> dinâmicos.</li>
+        </ul>
+        <details>
+          <summary>Boas práticas de uso didático</summary>
+          <ul class="list">
+            <li>Definir pergunta narrativa antes da visualização (<em>what’s the point?</em>).</li>
+            <li>Reduzir cromas e rótulos; destacar apenas a série relevante.</li>
+            <li>Adicionar <em>alt text</em> e descrições para acessibilidade.</li>
+          </ul>
+        </details>
+        <p class="btns">
+          <a class="btn" href="https://flourish.studio" target="_blank" rel="noopener">Flourish</a>
+          <a class="btn" href="https://www.datawrapper.de" target="_blank" rel="noopener">Datawrapper</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="grm" class="section" aria-labelledby="h-grm">
+      <div class="hd"><span class="kicker">GRM</span><h2 id="h-grm">Integração de dados em Grande Reportagem Multimídia</h2></div>
+      <div class="bd">
+        <p>A integração de dados deve reforçar a narrativa central — não apenas ilustrar. Selecionar dados relevantes, alinhar visualizações ao texto e oferecer recursos de exploração (filtros, zoom, destaques) que permitam ao leitor descobrir padrões.</p>
+        <ul class="list">
+          <li><em>Amazônia Ocupada</em>: mapas e gráficos dinâmicos revelam padrões de grilagem e sobreposições territoriais.</li>
+          <li><em>The Outlaw Ocean</em>: rotas de navios cruzando dados de localização e denúncias com interatividade.</li>
+        </ul>
+        <div class="ok">Quando bem integrados, dados elevam a agência e o engajamento cognitivo: o leitor acompanha e investiga.</div>
+      </div>
+    </section>
+
+    <section id="atividade" class="section" aria-labelledby="h-atividade">
+      <div class="hd"><span class="kicker">Prática</span><h2 id="h-atividade">Atividade prática em sala</h2></div>
+      <div class="bd">
+        <p><strong>Objetivo:</strong> criar uma narrativa interativa com base em dados públicos.</p>
+        <ol>
+          <li>Formar grupos de 3 a 5 estudantes.</li>
+          <li>Acessar um repositório de dados (IBGE, DataSUS, Atlas da Violência, TSE etc.).</li>
+          <li>Escolher uma pauta e extrair um conjunto de dados significativo.</li>
+          <li>Produzir um gráfico interativo em Flourish ou Datawrapper.</li>
+          <li>Redigir 3–5 parágrafos que contextualizem o gráfico e aponte achados.</li>
+          <li>Submeter gráfico e texto em um único arquivo no Classroom.</li>
+        </ol>
+        <details>
+          <summary>Critérios de avaliação (sugestão)</summary>
+          <ul class="list">
+            <li>Aderência narrativa (clareza da pergunta e da história com dados).</li>
+            <li>Qualidade da visualização (legibilidade, foco, acessibilidade).</li>
+            <li>Rigor informacional (fonte dos dados, limites e transparência metodológica).</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <section id="referencias" class="section" aria-labelledby="h-refs">
+      <div class="hd"><span class="kicker">Referências</span><h2 id="h-refs">Bibliografia e projetos</h2></div>
+      <div class="bd">
+        <ul class="refs">
+          <li>LONGHI, Raquel Ritter. <em>Narrativas interativas e jornalismo: modos de produção de sentido na cultura digital</em>. Florianópolis: Insular, 2015.</li>
+          <li>MURRAY, Janet H. <em>Hamlet no Holodeck: o futuro da narrativa no ciberespaço</em>. São Paulo: Unesp, 2017.</li>
+          <li>ROSA, João Freire da. <em>Narrativas digitais e plataformas: do hipertexto ao metaverso</em>. Rio de Janeiro: Mauad X, 2020.</li>
+          <li>THE GUARDIAN. <em>Firestorm</em>, 2013. Disponível em: theguardian.com (projeto interativo).</li>
+          <li>FINANCIAL TIMES. <em>The Uber Game</em>, 2017. Disponível em: ig.ft.com/uber-game.</li>
+          <li>INTERCEPT BRASIL; INFOAMAZONIA. <em>Amazônia Ocupada</em>, 2021.</li>
+          <li>REVISTA PIAUÍ. <em>A Máquina do Ódio</em>, 2021.</li>
+          <li>FLOURISH. Plataforma de visualização. Em: flourish.studio.</li>
+          <li>DATAWRAPPER. Plataforma de visualização. Em: datawrapper.de.</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="foot">© UERJ — Laboratório em Jornalismo Digital • Aula 4. Este material organiza conteúdos para fins didáticos e de pesquisa, com links para projetos originais.</p>
+  </main>
+
+  <script>
+    // rolagem suave
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const href = a.getAttribute('href');
+        if (href.length > 1) {
+          e.preventDefault();
+          document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
